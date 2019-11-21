@@ -1,5 +1,6 @@
-const { Ship } = require('./battleship');
+const { Ship } = require('./ship');
 const { Gameboard } = require('./gameboard');
+const { Player } = require('./player');
 
 
 const ship1 = Ship([[1, 1], [1,2]]);
@@ -40,4 +41,18 @@ test('all ships to be sunk if all coordinates are hit', () => {
     gameboard.receiveAttack([2, 4]);
 
     expect(gameboard.allSunk()).toBe(true);
+});
+
+test('board to record all coordinates of attemps', () => {
+    expect(gameboard.attempts).toEqual([[1, 3], [1, 4], [2, 3], [2, 4]]);
+});
+
+ const player1 = Player('person');
+test('new move should be valid', () => {
+    expect(player1.validMove(gameboard.attempts, [3,3])).toBe(true);
+});
+
+test('repeat move should be invalid', () => {
+    gameboard.receiveAttack([3,3]);
+    expect(player1.validMove(gameboard.attempts, [3, 3])).toBe(false);
 });

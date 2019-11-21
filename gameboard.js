@@ -1,4 +1,4 @@
-const { Ship } = require('./battleship');
+const { Ship } = require('./ship');
 
 const Gameboard = (width) => {
 
@@ -75,7 +75,7 @@ const Gameboard = (width) => {
         return ships.every(checkSunk);
     }
 
-    return { ships, placeShips, receiveAttack, allSunk }
+    return { ships, placeShips, receiveAttack, attempts, allSunk }
 }
 
 module.exports = { Gameboard }

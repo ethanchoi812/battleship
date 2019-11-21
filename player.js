@@ -1,8 +1,5 @@
 
 const Player = (type) => {
-
-
-    const attempts = []
     
     /**
      *
@@ -26,25 +23,26 @@ const Player = (type) => {
             // get move from user
             move = arr;
             if (validMove(move)) {
+                board.attempts.push(move);
                 board.receiveAttack(move);
             }
         }
     }
 
-    const validMove = (move) => {
+    const validMove = (attempts, move) => {
 
         const matchMove = (attempt) => {
-            attempt[0] === move[0] && attempt[1] === move[1];
+            return attempt[0] === move[0] && attempt[1] === move[1];
         }
 
-        // returns true if not found in 'attempts' array
-        if (attempts.findIndex(matchMove) === -1) {
-            attempts.push(move);
-            return true;
-        } else {
+        if (attempts.findIndex(matchMove) !== -1) {
             return false;
+        } else if (attempts.findIndex(matchMove) === -1){
+            return true;
         }
     }
 
-    return { getMove }
+    return { validMove, getMove }
 }
+
+module.exports = { Player }
