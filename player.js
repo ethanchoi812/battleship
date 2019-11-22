@@ -3,30 +3,41 @@ const Player = (type) => {
     
     /**
      *
-     * @param board from Gameboard
+     * @param {Board} gameboard Board object
+     * @param {Array} arr optional Array from users
      *
      */
-    const getMove = (board, arr=[]) => {
+    const getMove = (gameboard, arr=[]) => {
         let move;
+        let attempts = gameboard.attempts;
 
-        if (type === 'bot'){
-            // random move
-            let row = Math.floor(Math.random() * Math.floor(board.width));
-            let col = Math.floor(Math.random() * Math.floor(board.width));
+        if (type === 'bot'){ 
+            move = makeMove(gameboard);        
 
-            move = [row, col]
-            if (validMove(move)) {
-                board.receiveAttack(move);
+            while (!validMove(attempts, move)) {
+                move = makeMove(gameboard);        
             }
-
+            
+            attempts.push(move);
+            
         } else {
             // get move from user
             move = arr;
-            if (validMove(move)) {
-                board.attempts.push(move);
-                board.receiveAttack(move);
+            if (validMove(attempts, move)) {
+                attempts.push(move);
             }
         }
+
+        return move;
+    }
+
+    const makeMove = (gameboard) => {
+
+        let row = Math.floor(Math.random() * Math.floor(gameboard.board.length));
+        let col = Math.floor(Math.random() * Math.floor(gameboard.board.length));
+        move = [row, col];
+
+        return move;
     }
 
     const validMove = (attempts, move) => {

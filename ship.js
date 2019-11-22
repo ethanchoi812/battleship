@@ -1,5 +1,4 @@
 
-
 const Ship = (pos) => {
     
     const position = pos; // array of coords e.g. [[0, 1], [0, 2]] => [0][1], [0][2]

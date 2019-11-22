@@ -75,7 +75,7 @@ const Gameboard = (width) => {
         return ships.every(checkSunk);
     }
 
-    return { ships, placeShips, receiveAttack, attempts, allSunk }
+    return { board, ships, placeShips, receiveAttack, attempts, allSunk }
 }
 
 module.exports = { Gameboard }

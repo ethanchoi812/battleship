@@ -47,7 +47,7 @@ test('board to record all coordinates of attemps', () => {
     expect(gameboard.attempts).toEqual([[1, 3], [1, 4], [2, 3], [2, 4]]);
 });
 
- const player1 = Player('person');
+const player1 = Player('person');
 test('new move should be valid', () => {
     expect(player1.validMove(gameboard.attempts, [3,3])).toBe(true);
 });
@@ -55,4 +55,10 @@ test('new move should be valid', () => {
 test('repeat move should be invalid', () => {
     gameboard.receiveAttack([3,3]);
     expect(player1.validMove(gameboard.attempts, [3, 3])).toBe(false);
+});
+
+const player2 = Player('bot');
+test('bot player should make a valid move', () => {
+    let attempts = gameboard.attempts;
+    expect(player2.getMove(gameboard)).toEqual(attempts[attempts.length-1]);
 });
