@@ -3,7 +3,6 @@ const { Ship } = require('./ship');
 const Gameboard = (width) => {
 
     // Board: [[0,1,2],[0,1,2],[0,1,2]]
-
     const board = [];
     for (let i = 0; i < width; i++) {
         board.push([]);

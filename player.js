@@ -1,13 +1,14 @@
 
-const Player = (type) => {
+const Player = (type, player_gameboard) => {
     
+    let gameboard = player_gameboard
     /**
      *
      * @param {Board} gameboard Board object
      * @param {Array} arr optional Array from users
      *
      */
-    const getMove = (gameboard, arr=[]) => {
+    const getMove = (arr=[]) => {
         let move;
         let attempts = gameboard.attempts;
 
@@ -31,7 +32,7 @@ const Player = (type) => {
         return move;
     }
 
-    const makeMove = (gameboard) => {
+    const makeMove = () => {
 
         let row = Math.floor(Math.random() * Math.floor(gameboard.board.length));
         let col = Math.floor(Math.random() * Math.floor(gameboard.board.length));
