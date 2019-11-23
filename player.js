@@ -1,14 +1,14 @@
 
 const Player = (type, player_gameboard) => {
     
-    let gameboard = player_gameboard
+    const gameboard = player_gameboard;
     /**
      *
      * @param {Board} gameboard Board object
      * @param {Array} arr optional Array from users
      *
      */
-    const getMove = (arr=[]) => {
+    const getMove = () => {
         let move;
         let attempts = gameboard.attempts;
 
@@ -19,12 +19,18 @@ const Player = (type, player_gameboard) => {
                 move = makeMove(gameboard);        
             }
             
+            gameboard.receiveAttack(move);
             attempts.push(move);
             
         } else {
             // get move from user
-            move = arr;
+            document.querySelector('form').addEventListener('submit', ()=>{
+                input = document.getElementById('move').value;
+                move = input.split(",").map(char => Number(char));
+            });
+
             if (validMove(attempts, move)) {
+                gameboard.receiveAttack(move);
                 attempts.push(move);
             }
         }
@@ -54,7 +60,7 @@ const Player = (type, player_gameboard) => {
         }
     }
 
-    return { validMove, getMove }
+    return { gameboard, validMove, getMove }
 }
 
 module.exports = { Player }
