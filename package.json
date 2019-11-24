@@ -1,15 +1,29 @@
 {
   "name": "battleship",
   "version": "1.0.0",
-  "description": "",
-  "main": "battleship.js",
+  "private": true,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^24.9.0"
-  }
+    "jest": "^24.9.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "webpack-dev-server": "^3.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethanchoi812/battleship.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ethanchoi812/battleship/issues"
+  },
+  "homepage": "https://github.com/ethanchoi812/battleship#readme",
+  "description": ""
 }

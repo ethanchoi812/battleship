@@ -63,4 +63,4 @@ const Player = (type, player_gameboard) => {
     return { gameboard, validMove, getMove }
 }
 
-module.exports = { Player }
+export default Player;

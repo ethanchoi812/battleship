@@ -27,4 +27,4 @@ const Ship = (pos) => {
     return { position, damage, hit, isSunk }
 }
 
-module.exports = { Ship }
+export default Ship;

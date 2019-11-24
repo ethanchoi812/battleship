@@ -1,6 +1,4 @@
-const { Ship } = require('./ship');
-const { Gameboard } = require('./gameboard');
-const { Player } = require('./player');
+const { battleship } = require('./battleship');
 
 
 const ship1 = Ship([[1, 1], [1,2]]);
