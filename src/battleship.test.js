@@ -1,4 +1,4 @@
-const { battleship } = require('./battleship');
+const { Battleship } = require('./battleship');
 
 
 const ship1 = Ship([[1, 1], [1,2]]);

@@ -1,4 +1,25 @@
 
 .gameboard {
+    display: inline-block;
+    width: 50%;
+}
+
+.row {
     background: #ccc;
+    border: 1px solid #fff;
+    display: block;
+    height: 50px;
+    width: 260px;
+}
+
+.col {
+    display: inline-block;
+    background: #555;
+    border: 1px solid #fff;
+    height: 100%;
+    width: 50px;
+}
+
+.ship {
+    background: #fff000;
 }
