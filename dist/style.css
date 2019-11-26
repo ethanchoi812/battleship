@@ -23,3 +23,11 @@
 .ship {
     background: #fff000;
 }
+
+.missed {
+    background: #00ffb2;
+}
+
+.hit {
+    background: #ff0000;
+}

@@ -12,7 +12,6 @@ const Gameboard = (width) => {
     }
 
     const ships = [];
-
     const attempts = [];
     
     /**

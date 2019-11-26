@@ -9,7 +9,7 @@ const Ship = (pos) => {
      * @param {arr} coord e.g [1, 1]
      */
     const hit = (coord) => {
-        for (subarr of position){
+        for (let subarr of position){
             if (subarr[0] === coord[0] && subarr[1] === coord[1]){
                 damage.push(coord);
             } 

@@ -16,15 +16,10 @@ const Battleship = () => {
     const player1 = setup('person', [[1, 2], [2, 2]]);
     const player2 = setup('bot', [[2, 3], [3, 3]]);
 
-    const activePlayer = player1;
-    const otherPlayer = player2;
+    let activePlayer = player1;
+    let otherPlayer = player2;
 
     const turn = () => {
-        //get move from active player
-        move = activePlayer.getMove();
-
-        // non-active player receive attack
-        otherPlayer.gameboard.receiveAttack(move);
 
         //switch turn
         if (otherPlayer.gameboard.allSunk() !== true) {
@@ -32,50 +27,90 @@ const Battleship = () => {
             activePlayer = otherPlayer;
             otherPlayer = temp;
         }
+        getMove();
     }
 
-    const render = (player) => {
 
-        // rendre gameboard for player 1
-        const gameboard = document.createElement('div');
-        gameboard.classList.add('gameboard');
+    const getMove = () => {        
+        
+        //get move from active player
+        let move;
 
-        let length =  player.gameboard.board.length;
+        if (activePlayer.type === 'bot') {
+            move = activePlayer.makeMove();
 
-        for (let i=0; i<length; i++){
-            let row = document.createElement('div');
-            row.classList.add('row');
-
-            for (let j = 0; j < length; j++) {
-                let col = document.createElement('span');
-                col.classList.add('col');
-
-                if (player.gameboard.board[i][j] === 'S'){
-                    col.classList.add('ship');
-                }
-
-                row.appendChild(col);
+            if (Array.isArray(move) && move.length === 2) {
+                otherPlayer.gameboard.receiveAttack(move);
+                render();
+                turn();
             }
-            gameboard.appendChild(row);
-        }
 
-        return gameboard;
+        } else {
+            document.querySelector('form').addEventListener('submit', () => {
+                event.preventDefault();
+
+                move = document.getElementById('move').value
+                    .split(",").map(char => Number(char));
+
+                if (Array.isArray(move) && move.length === 2) {
+                    otherPlayer.gameboard.receiveAttack(move);
+                    render();
+                    turn();
+                }
+            });
+        }     
+    }
+
+    const render = () => {
+
+        let display = document.getElementById('display');
+        display.innerHTML = "";
+
+        let players = [player1, player2];
+
+        for (let player of players) {
+
+        // render gameboard for player 1
+            let gameboardDiv = document.createElement('div');
+            gameboardDiv.classList.add('gameboard');
+
+            let length = player.gameboard.board.length;
+
+            for (let i=0; i<length; i++){
+                let row = document.createElement('div');
+                row.classList.add('row');
+
+                for (let j = 0; j < length; j++) {
+                    let col = document.createElement('span');
+                    col.classList.add('col');
+
+                    if (player.gameboard.board[i][j] === 'S'){
+                        col.classList.add('ship');
+                    }
+
+                    if (player.gameboard.board[i][j] === 'M') {
+                        col.classList.add('missed');
+                    }
+
+                    if (player.gameboard.board[i][j] === 'X') {
+                        col.classList.add('hit');
+                    }
+
+                    row.appendChild(col);
+                }
+                gameboardDiv.appendChild(row);
+            }
+            display.appendChild(gameboardDiv);
+        }
     }
 
     const play = () => {
-        const display = document.getElementById('display');
-        const gameboard1 = render(player1);
-        const gameboard2 = render(player2);
+        render();
+        getMove();   
 
-        display.appendChild(gameboard1);
-        display.appendChild(gameboard2);
-
-        while (activePlayer.gameboard.allSunk() !== true) {
-            turn();
-        }
     }
 
-    return { render, play }
+    return { play }
 }
 
 let battleship = Battleship();
