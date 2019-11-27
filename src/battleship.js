@@ -4,28 +4,39 @@ import Player from './player';
 const Battleship = () => {
 
     //set up gameboard
-    const setup = (player_type, ship_coordinates) => {        
+    const setup = (name, player_type, ship_coordinates) => {        
         let gameboard = Gameboard(5);
-        let player = Player(player_type, gameboard);
+        let player = Player(name, player_type, gameboard);
 
         gameboard.placeShips(ship_coordinates);
 
         return player;
     }
 
-    const player1 = setup('person', [[1, 2], [2, 2]]);
-    const player2 = setup('bot', [[2, 3], [3, 3]]);
+    const player1 = setup('Elena', 'person', [[1, 2], [2, 2]]);
+    const player2 = setup('Bot', 'bot', [[2, 3], [3, 3]]);
 
     let activePlayer = player1;
     let otherPlayer = player2;
 
+    let msg = '';
+
     const turn = () => {
 
-        let temp = activePlayer;
-        activePlayer = otherPlayer;
-        otherPlayer = temp;
+        let allSunk = otherPlayer.gameboard.allSunk();
 
-        getMove();
+        if (allSunk === true) {
+
+            msg = `<p>${activePlayer.playerName} wins!</p>`;
+            render();
+
+        } else {
+        
+            let temp = activePlayer;
+            activePlayer = otherPlayer;
+            otherPlayer = temp;
+            getMove();
+        }
     }
 
 
@@ -36,7 +47,6 @@ const Battleship = () => {
 
         if (activePlayer.type === 'bot') {
             move = activePlayer.makeMove();
-            console.log(move);
             otherPlayer.gameboard.receiveAttack(move);
             render();
             turn();
@@ -102,6 +112,7 @@ const Battleship = () => {
             }
             display.appendChild(gameboardDiv);
         }
+        display.innerHTML += msg;
     }
 
     const play = () => {

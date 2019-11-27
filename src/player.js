@@ -1,6 +1,7 @@
 
-const Player = (playerType, playerGameboard) => {
+const Player = (name, playerType, playerGameboard) => {
     
+    const playerName = name;
     const gameboard = playerGameboard;
     const type = playerType;
     const attempts = [];
@@ -36,7 +37,7 @@ const Player = (playerType, playerGameboard) => {
             return true;
         }
     }
-    return { gameboard, type, makeMove }
+    return { playerName, gameboard, type, makeMove }
 }
 
 export default Player;
