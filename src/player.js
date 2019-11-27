@@ -19,7 +19,9 @@ const Player = (playerType, playerGameboard) => {
         let col = Math.floor(Math.random() * Math.floor(gameboard.board.length));
         let move = [row, col];
 
-        return move;
+        if (validMove(attempts, move)){
+            return move;
+        }
     }
 
     const validMove = (attempts, move) => {

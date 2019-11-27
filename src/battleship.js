@@ -21,12 +21,10 @@ const Battleship = () => {
 
     const turn = () => {
 
-        //switch turn
-        if (otherPlayer.gameboard.allSunk() !== true) {
-            let temp = activePlayer;
-            activePlayer = otherPlayer;
-            otherPlayer = temp;
-        }
+        let temp = activePlayer;
+        activePlayer = otherPlayer;
+        otherPlayer = temp;
+
         getMove();
     }
 
@@ -38,27 +36,29 @@ const Battleship = () => {
 
         if (activePlayer.type === 'bot') {
             move = activePlayer.makeMove();
+            console.log(move);
+            otherPlayer.gameboard.receiveAttack(move);
+            render();
+            turn();
 
-            if (Array.isArray(move) && move.length === 2) {
-                otherPlayer.gameboard.receiveAttack(move);
-                render();
-                turn();
-            }
-
-        } else {
+        } else if (activePlayer.type === 'person') {
             document.querySelector('form').addEventListener('submit', () => {
                 event.preventDefault();
 
-                move = document.getElementById('move').value
-                    .split(",").map(char => Number(char));
+                let val = document.getElementById('move').value
 
-                if (Array.isArray(move) && move.length === 2) {
-                    otherPlayer.gameboard.receiveAttack(move);
-                    render();
-                    turn();
+                if (val !== '') {
+                    move = val.split(",").map(char => Number(char));
+
+                    if (move.length === 2) {    
+                        otherPlayer.gameboard.receiveAttack(move);
+                        document.getElementById('move').value = '';
+                        render();
+                        turn();
+                    }
                 }
             });
-        }     
+        }        
     }
 
     const render = () => {
