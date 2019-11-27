@@ -95,7 +95,9 @@ const Battleship = () => {
                     col.classList.add('col');
 
                     if (player.gameboard.board[i][j] === 'S'){
-                        col.classList.add('ship');
+                        if (player.type === 'person'){
+                            col.classList.add('ship');
+                        }
                     }
 
                     if (player.gameboard.board[i][j] === 'M') {

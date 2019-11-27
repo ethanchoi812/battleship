@@ -1,6 +1,7 @@
 
 .gameboard {
     display: inline-block;
+    margin-top: 50px;
     width: 50%;
 }
 
@@ -8,6 +9,7 @@
     background: #ccc;
     border: 1px solid #fff;
     display: block;
+    margin: 0 auto;
     height: 50px;
     width: 260px;
 }
@@ -30,4 +32,25 @@
 
 .hit {
     background: #ff0000;
+}
+
+form {
+    margin-top: 100px;
+    text-align: center;
+}
+
+input[type='text'] {
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+
+input[type='submit'] {    
+    background: #fff000;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
 }
