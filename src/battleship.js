@@ -13,22 +13,24 @@ const Battleship = () => {
         return player;
     }
 
-    const player1 = setup('Elena', 'person', [[1, 2], [2, 2]]);
+    const player1 = setup('You', 'person', [[1, 2], [2, 2]]);
     const player2 = setup('Bot', 'bot', [[2, 3], [3, 3]]);
 
     let activePlayer = player1;
     let otherPlayer = player2;
-
-    let msg = '';
 
     const turn = () => {
 
         let allSunk = otherPlayer.gameboard.allSunk();
 
         if (allSunk === true) {
+            let msg;
 
-            msg = `<p>${activePlayer.playerName} wins!</p>`;
-            render();
+            activePlayer.type === 'bot' ?
+                msg = `${activePlayer.playerName} wins!` :
+                msg = `${activePlayer.playerName} win!`;
+
+            render(msg);
 
         } else {
         
@@ -46,6 +48,7 @@ const Battleship = () => {
         let move;
 
         if (activePlayer.type === 'bot') {
+
             move = activePlayer.makeMove();
             otherPlayer.gameboard.receiveAttack(move);
             render();
@@ -58,23 +61,34 @@ const Battleship = () => {
                 let val = document.getElementById('move').value
 
                 if (val !== '') {
+
                     move = val.split(",").map(char => Number(char));
 
-                    if (move.length === 2) {    
+                    if (move.length === 2 && activePlayer.validMove(move)) {
+                        activePlayer.attempts.push(move);    
                         otherPlayer.gameboard.receiveAttack(move);
+                        
                         document.getElementById('move').value = '';
                         render();
                         turn();
+
+                    } else {
+
+                        render('Invalid move. Try again!');
                     }
                 }
             });
         }        
     }
 
-    const render = () => {
+    const render = (msg) => {
 
         let display = document.getElementById('display');
         display.innerHTML = "";
+
+        let msgDiv = document.getElementById('message');
+        msg = msg || "";
+        msgDiv.textContent = msg;
 
         let players = [player1, player2];
 
@@ -114,7 +128,6 @@ const Battleship = () => {
             }
             display.appendChild(gameboardDiv);
         }
-        display.innerHTML += msg;
     }
 
     const play = () => {
