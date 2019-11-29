@@ -4,20 +4,42 @@ import Player from './player';
 const Battleship = () => {
 
     //set up gameboard
-    const setup = (name, player_type, ship_coordinates) => {        
+    const setup = (name, player_type) => {        
         let gameboard = Gameboard(5);
         let player = Player(name, player_type, gameboard);
 
-        gameboard.placeShips(ship_coordinates);
+        // todo
+        if (player.type === 'bot') {
+            player.gameboard.placeShips([[2,3], [3,3]]);
+        }
 
         return player;
     }
 
-    const player1 = setup('You', 'person', [[1, 2], [2, 2]]);
-    const player2 = setup('Bot', 'bot', [[2, 3], [3, 3]]);
+    const player1 = setup('You', 'person');
+    const player2 = setup('Bot', 'bot');
+
+    const form = document.querySelector('form');
+
+    form.addEventListener("submit", () => {
+        event.preventDefault();
+        let coords = [];
+
+        let userInput = document.getElementById("add-ship").value;
+        let coord = userInput.split(",").map(char => Number(char));
+
+        coords.push(coord);
+
+        player1.gameboard.placeShips(coords);
+        render();
+
+        document.getElementById("add-ship").value = '';
+    });
 
     let activePlayer = player1;
     let otherPlayer = player2;
+
+    //done button
 
     const turn = () => {
 
@@ -60,23 +82,14 @@ const Battleship = () => {
                 col.addEventListener('click', (event) => {
 
                 let val = event.target.id
-            
                 if (val !== '') {
 
                     move = val.split("-").map(char => Number(char));
-
-                    if (move.length === 2 && activePlayer.validMove(move)) {
-                        activePlayer.attempts.push(move);    
-                        otherPlayer.gameboard.receiveAttack(move);
-                        
-                        document.getElementById('move').value = '';
-                        render();
-                        turn();
-
-                    } else {
-                        render('Invalid move. Try again!');
-                        
-                        }
+                    activePlayer.attempts.push(move);    
+                    otherPlayer.gameboard.receiveAttack(move);
+                    
+                    render();
+                    turn();
                     }
                 });
             });
