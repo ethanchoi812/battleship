@@ -56,14 +56,14 @@ const Battleship = () => {
 
         } else if (activePlayer.type === 'person') {
 
-            document.querySelector('form').addEventListener('submit', () => {
-                event.preventDefault();
+            document.querySelectorAll('#bot .col').forEach( col => {
+                col.addEventListener('click', (event) => {
 
-                let val = document.getElementById('move').value
-
+                let val = event.target.id
+            
                 if (val !== '') {
 
-                    move = val.split(",").map(char => Number(char));
+                    move = val.split("-").map(char => Number(char));
 
                     if (move.length === 2 && activePlayer.validMove(move)) {
                         activePlayer.attempts.push(move);    
@@ -74,10 +74,11 @@ const Battleship = () => {
                         turn();
 
                     } else {
-
                         render('Invalid move. Try again!');
+                        
+                        }
                     }
-                }
+                });
             });
         }        
     }
