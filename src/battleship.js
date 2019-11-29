@@ -55,6 +55,7 @@ const Battleship = () => {
             turn();
 
         } else if (activePlayer.type === 'person') {
+
             document.querySelector('form').addEventListener('submit', () => {
                 event.preventDefault();
 
@@ -97,6 +98,7 @@ const Battleship = () => {
         // render gameboard for player 1
             let gameboardDiv = document.createElement('div');
             gameboardDiv.classList.add('gameboard');
+            gameboardDiv.setAttribute('id', player.type);
 
             let length = player.gameboard.board.length;
 
@@ -107,6 +109,7 @@ const Battleship = () => {
                 for (let j = 0; j < length; j++) {
                     let col = document.createElement('span');
                     col.classList.add('col');
+                    col.setAttribute('id', `${i}-${j}`);
 
                     if (player.gameboard.board[i][j] === 'S'){
                         if (player.type === 'person'){
