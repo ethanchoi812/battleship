@@ -4,6 +4,7 @@ const Player = (name, playerType, playerGameboard) => {
     const playerName = name;
     const gameboard = playerGameboard;
     const type = playerType;
+    const ships = [];
     const attempts = [];
 
     /**
@@ -14,31 +15,45 @@ const Player = (name, playerType, playerGameboard) => {
      */
     
 
+    const randomCoord = (baseArr) => {
+
+        let coord = [];
+        while (!validCoord(coord, baseArr)){
+            let x = Math.floor(Math.random() * Math.floor(gameboard.board.length));
+            let y = Math.floor(Math.random() * Math.floor(gameboard.board.length));
+
+            coord = [x, y];
+        }
+        return coord;
+    } 
+
+    const validCoord = (coord, baseArr) => {
+
+        const matchMove = (base) => {
+            return base[0] === coord[0] && base[1] === coord[1];
+        }
+
+        return (coord.length === 2 && baseArr.findIndex(matchMove) === -1);
+    }
+
     const makeMove = () => {
 
-        let move = [];
-
-        while (!validMove(move)) {
-            let row = Math.floor(Math.random() * Math.floor(gameboard.board.length));
-            let col = Math.floor(Math.random() * Math.floor(gameboard.board.length));
-            move = [row, col];
-
-        }
-        
+        let move = randomCoord(attempts);
         attempts.push(move);
+
         return move;
     }
 
-    const validMove = (move) => {
+    const makeShips = (num) => {
 
-        const matchMove = (attempt) => {
-            return attempt[0] === move[0] && attempt[1] === move[1];
+        for(let i=0; i<num; i++){
+            let ship = randomCoord(ships);
+            ships.push(ship);
         }
-
-        return (move.length === 2 && attempts.findIndex(matchMove) === -1);
+        return ships;
     }
 
-    return { playerName, gameboard, type, makeMove, validMove, attempts }
+    return { playerName, gameboard, type, makeMove, attempts, makeShips }
 }
 
 export default Player;

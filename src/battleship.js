@@ -3,43 +3,51 @@ import Player from './player';
 
 const Battleship = () => {
 
+    let activePlayer;
+    let otherPlayer;
+
+    let gameboard1 = Gameboard(5);
+    let gameboard2 = Gameboard(5);
+
+    let player1 = Player('You', 'person', gameboard1);
+    let player2 = Player('Bot', 'bot', gameboard2);
+
     //set up gameboard
-    const setup = (name, player_type) => {        
-        let gameboard = Gameboard(5);
-        let player = Player(name, player_type, gameboard);
+    const setup = () => {        
+        
+        let coords = player2.makeShips(2);
+        console.log(coords);
+        player2.gameboard.placeShips(coords);
 
-        // todo
-        if (player.type === 'bot') {
-            player.gameboard.placeShips([[2,3], [3,3]]);
-        }
+        const form = document.querySelector('form');
 
-        return player;
-    }
+        form.addEventListener("submit", () => {
+            event.preventDefault();
+            let coords = [];
 
-    const player1 = setup('You', 'person');
-    const player2 = setup('Bot', 'bot');
+            let userInput = document.getElementById("add-ship").value;
+            let coord = userInput.split(",").map(char => Number(char));
 
-    const form = document.querySelector('form');
+            coords.push(coord);
 
-    form.addEventListener("submit", () => {
-        event.preventDefault();
-        let coords = [];
+            player1.gameboard.placeShips(coords);
+            render();
 
-        let userInput = document.getElementById("add-ship").value;
-        let coord = userInput.split(",").map(char => Number(char));
+            document.getElementById("add-ship").value = '';
+        });
 
-        coords.push(coord);
+        activePlayer = player1;
+        otherPlayer = player2;
 
-        player1.gameboard.placeShips(coords);
+        const done = document.getElementById('done');
+        done.addEventListener('click', () => {
+            form.style.display = 'none';
+            done.style.display = 'none';
+            getMove();
+        });
+
         render();
-
-        document.getElementById("add-ship").value = '';
-    });
-
-    let activePlayer = player1;
-    let otherPlayer = player2;
-
-    //done button
+    }
 
     const turn = () => {
 
@@ -147,16 +155,11 @@ const Battleship = () => {
         }
     }
 
-    const play = () => {
-        render();
-        getMove();   
 
-    }
-
-    return { play }
+    return { setup }
 }
 
 let battleship = Battleship();
-battleship.play();
+battleship.setup();
 
 //module.exports = { Battleship }
