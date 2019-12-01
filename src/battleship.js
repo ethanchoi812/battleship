@@ -5,19 +5,15 @@ const Battleship = () => {
 
     let activePlayer;
     let otherPlayer;
-
-    let gameboard1 = Gameboard(5);
-    let gameboard2 = Gameboard(5);
+    let boardLength = 5;
+    let gameboard1 = Gameboard(boardLength);
+    let gameboard2 = Gameboard(boardLength);
 
     let player1 = Player('You', 'person', gameboard1);
     let player2 = Player('Bot', 'bot', gameboard2);
 
     //set up gameboard
-    const setup = () => {        
-        
-        let coords = player2.makeShips(2);
-        console.log(coords);
-        player2.gameboard.placeShips(coords);
+    const setup = () => { 
 
         const form = document.querySelector('form');
 
@@ -28,12 +24,21 @@ const Battleship = () => {
             let userInput = document.getElementById("add-ship").value;
             let coord = userInput.split(",").map(char => Number(char));
 
-            coords.push(coord);
+            if (coord[0] >= boardLength || coord[1] >= boardLength) {
+                let msg = 'Invalid coordinate!';
+                render(msg);
+            
+            } else {
 
+            coords.push(coord);
             player1.gameboard.placeShips(coords);
+
+            let coord2 = player2.makeShips();
+            player2.gameboard.placeShips(coord2);
+
             render();
 
-            document.getElementById("add-ship").value = '';
+            }
         });
 
         activePlayer = player1;
@@ -106,6 +111,8 @@ const Battleship = () => {
 
     const render = (msg) => {
 
+        document.getElementById("add-ship").value = '';
+
         let display = document.getElementById('display');
         display.innerHTML = "";
 
@@ -161,5 +168,3 @@ const Battleship = () => {
 
 let battleship = Battleship();
 battleship.setup();
-
-//module.exports = { Battleship }

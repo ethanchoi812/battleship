@@ -44,12 +44,9 @@ const Player = (name, playerType, playerGameboard) => {
         return move;
     }
 
-    const makeShips = (num) => {
-
-        for(let i=0; i<num; i++){
-            let ship = randomCoord(ships);
-            ships.push(ship);
-        }
+    const makeShips = () => {
+        let ship = randomCoord(ships);
+        ships.push(ship);
         return ships;
     }
 

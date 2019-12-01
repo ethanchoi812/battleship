@@ -25,18 +25,11 @@ const Gameboard = (width) => {
         ships.push(ship);
 
         coords.forEach((subarr) => {
-            if (subarr[0] < width && subarr[1] < width){
-                                
-                let row = subarr[0];
-                let col = subarr[1];
-
-                board[row][col] = 'S';
-            }
-            else {
-                throw 'Error: Invalid coordinate';
-            }
+                
+            let row = subarr[0];
+            let col = subarr[1];
+            board[row][col] = 'S';
         });
-
         return ships;
     }
     
